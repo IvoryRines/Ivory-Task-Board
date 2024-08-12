@@ -62,23 +62,28 @@
               ></button>
             </div>
             <div class="modal-body">
-              <div class="container">
-                <div class="row pb-2">
+              <form>
+                <div class="row p-2">
                   <div class="col-6">
                     <label>Task Title</label>
-                    <input type="text" id="taskTitle" class="w-100"/>
+                    <input type="text" id="task-title" class="form-control" />
                   </div>
                   <div class="col-6">
                     <label>Task Due Date</label>
-                    <input type="date" id="datepicker" class="w-100" />
+                    <input type="date" id="datepicker" class="form-control" />
                   </div>
                 </div>
-                <div class="row-wrap w-200 mx-auto">
-                  <div class="col-12">
-                    <label>Task Description</label>
-                    <textarea id="taskDescription" class="w-200"></textarea>
-                  </div>
-              </div>
+                <div class="form-group p-2">
+                  <!-- <div class="col-12"> -->
+                  <label>Task Description</label>
+                  <textarea
+                    class="form-control"
+                    id="task-description"
+                    rows="3"
+                  ></textarea>
+                  <!-- </div> -->
+                </div>
+              </form>
             </div>
             <div class="modal-footer">
               <button
