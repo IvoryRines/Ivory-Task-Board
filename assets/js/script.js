@@ -135,7 +135,8 @@ function handleDrop(event, ui) {
   const taskId = $(ui.draggable).data("id");
   const newStatus = $(event.target).attr("id").replace("-cards", "");
 
-  console.log("Dropped task ID:", taskId, "New status:", newStatus);
+  console.log("Dropped task ID:", taskId); // Log the task ID
+  console.log("New status:", newStatus); // Log the new status
 
   if (!["to-do", "in-progress", "done"].includes(newStatus)) {
     console.error("Invalid status:", newStatus);
@@ -149,8 +150,8 @@ function handleDrop(event, ui) {
     localStorage.setItem("tasks", JSON.stringify(tasks));
     console.log("After update:", task);
     renderTaskList(); // Re-render the list to reflect changes
-    //   } else {
-    //     console.error("Task not found:", taskId);
+  } else {
+    console.error("Task not found:", taskId);
   }
 }
 
