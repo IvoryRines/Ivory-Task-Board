@@ -15,13 +15,15 @@ function createTaskCard(task) {
   const taskCard = $("<div>")
     .addClass("card task-card draggable my-3")
     .attr("data-id", task.id);
-  const taskTitle = $("<h5>").addClass("card-title").text(task.title);
+  const taskTitle = $("<h5>")
+    .addClass("card-title border-bottom my-1")
+    .text(task.title);
   const cardBody = $("<div>").addClass("card-body");
   const taskDescription = $("<p>").addClass("card-text").text(task.description);
   const taskDueDate = $("<p>").addClass("due-date").text(task.dueDate);
 
   const cardDeleteBtn = $("<button>")
-    .addClass("btn btn-danger delete-task ")
+    .addClass("btn btn-danger delete-task")
     .text("Delete")
     .attr("data-id", task.id);
 
