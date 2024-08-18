@@ -110,6 +110,11 @@ function handleAddTask(event) {
   tasks.push(newTask);
   localStorage.setItem("tasks", JSON.stringify(tasks));
 
+  //Clear Input Fields
+  $('input[type="text"]').val("");
+  $('input[type="date"]').val("");
+  $('textarea[type="textarea"]').val("");
+
   $("#formModal").modal("hide");
   renderTaskList();
 }
