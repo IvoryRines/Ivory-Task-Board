@@ -1,14 +1,18 @@
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
 }
 
 .swim-lanes {
   min-height: 60vh;
+  position: relative; /* Ensure the z-index works */
+  z-index: 1; /* Lower than the cards */
 }
 
 .task-card {
   margin: 0 auto;
+  position: relative; /* Ensure the z-index works */
+  z-index: 1000;
 }
 
 .task-card:hover {

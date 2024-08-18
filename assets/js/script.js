@@ -17,8 +17,8 @@ function createTaskCard(task) {
     .attr("data-id", task.id);
   const taskTitle = $("<h5>").addClass("card-title").text(task.title);
   const cardBody = $("<div>").addClass("card-body");
-  const taskDescription = $("<p>").addClass("card-text").text(task.type);
-  const taskDueDate = $("<p>").addClass("card-text").text(task.dueDate);
+  const taskDescription = $("<p>").addClass("card-text").text(task.description);
+  const taskDueDate = $("<p>").addClass("due-date").text(task.dueDate);
 
   const cardDeleteBtn = $("<button>")
     .addClass("btn btn-danger delete-task ")
@@ -56,7 +56,7 @@ function renderTaskList() {
   if (tasks) {
     tasks.forEach((task) => {
       const taskCard = createTaskCard(task);
-      if (task.status === "todo") {
+      if (task.status === "to-do") {
         $("#todo-cards").append(taskCard);
       } else if (task.status === "in-progress") {
         $("#in-progress-cards").append(taskCard);
@@ -71,6 +71,10 @@ function renderTaskList() {
       helper: "clone",
       start: function (event, ui) {
         ui.helper.width($(this).width());
+        $(this).css("z-index", 1000); // Bring the dragged card to the front
+      },
+      stop: function (event, ui) {
+        $(this).css("z-index", ""); // Reset the z-index after dragging
       },
     });
 
@@ -99,7 +103,7 @@ function handleAddTask(event) {
     title: title,
     description: description,
     dueDate: dueDate,
-    status: "todo",
+    status: "to-do",
   };
 
   tasks = tasks || [];
@@ -112,7 +116,7 @@ function handleAddTask(event) {
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask() {
-  const taskId = this.data("id");
+  const taskId = $(this).data("id");
 
   tasks = tasks.filter((task) => task.id !== taskId);
   localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -121,17 +125,26 @@ function handleDeleteTask() {
 }
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
-  const taskCard = $(ui.helper);
+  const taskCard = $(ui.helper).clone(); // Clone the helper to get the correct task ID
   const taskId = taskCard.data("id");
   const newStatus = $(event.target).attr("id").replace("-cards", "");
 
-  tasks.forEach((task) => {
-    if (task.id === taskId) {
-      task.status = newStatus;
-    }
-  });
+  // Ensure the new status is valid
+  if (!["to-do", "in-progress", "done"].includes(newStatus)) {
+    console.error("Invalid status:", newStatus);
+    return;
+  }
 
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  // Update the task's status
+  const task = tasks.find((task) => task.id === taskId);
+  if (task) {
+    task.status = newStatus;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  } else {
+    console.error("Task not found:", taskId);
+  }
+
+  // Re-render the task list to reflect the changes
   renderTaskList();
 }
 
