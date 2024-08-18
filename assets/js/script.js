@@ -4,8 +4,8 @@ let nextId = JSON.parse(localStorage.getItem("nextId"));
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
-  const id = nextId;
-  nextId += 1;
+  const id = nextId || 1; // Default to 1 if nextId is undefined
+  nextId = id + 1;
   localStorage.setItem("nextId", JSON.stringify(nextId));
   return id;
 }
@@ -132,7 +132,9 @@ function handleDeleteTask() {
 }
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
-  const taskId = $(ui.draggable).data("id");
+  event.preventDefault();
+
+  const taskId = $(ui.draggable[0]).data("id");
   const newStatus = $(event.target).attr("id").replace("-cards", "");
 
   console.log("Dropped task ID:", taskId); // Log the task ID
