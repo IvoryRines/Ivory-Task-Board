@@ -77,6 +77,7 @@
                   <!-- <div class="col-12"> -->
                   <label>Task Description</label>
                   <textarea
+                    type="textarea"
                     class="form-control"
                     id="task-description"
                     rows="3"
@@ -93,13 +94,14 @@
               >
                 Close
               </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
+              <button type="button" id="submit-button" class="btn btn-primary">
+                Submit
               </button>
             </div>
           </div>
         </div>
       </div>
+      <!-- Task Table -->
       <div class="row swim-lanes text-center justify-content-between">
         <div class="col-12 col-lg-4 d-flex">
           <div id="to-do" class="card border-light mb-3 lane flex-grow-1">
