@@ -55,7 +55,7 @@ Feel free to explore the application and manage your tasks efficiently!
 
 A screeshot of the completed application to demonstrate functionality:
 
-![screenshot of task board application with multiple tasks](<assets/images/Screenshot for Readme.png>)
+![screenshot of task board application with multiple tasks](assets/images/sh-for-readme.png)
 
 ## Contributing
 
