@@ -12,7 +12,6 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
-  task.preventDefault;
   const taskCard = $("<div>")
     .addClass("card task-card draggable my-3")
     .attr("data-id", task.id);
@@ -20,20 +19,21 @@ function createTaskCard(task) {
   const cardBody = $("<div>").addClass("card-body");
   const taskDescription = $("<p>").addClass("card-text").text(task.type);
   const taskDueDate = $("<p>").addClass("card-text").text(task.dueDate);
-  const cardDeleteBtn = $("<delete-button>")
-    .addClass("btn btn-danger delete ")
+
+  const cardDeleteBtn = $("<button>")
+    .addClass("btn btn-danger delete-task ")
     .text("Delete")
-    .attr("data-task-id", task.id);
+    .attr("data-id", task.id);
 
   // ? Sets the card background color based on due date. Only apply the styles if the dueDate exists and the status is not done.
   if (task.dueDate && task.status !== "done") {
     const now = dayjs();
-    const taskDueDate = dayjs(task.dueDate, "DD/MM/YYYY");
+    const dueDate = dayjs(task.dueDate, "DD/MM/YYYY");
 
     // ? If the task is due today, make the card yellow. If it is overdue, make it red.
-    if (now.isSame(taskDueDate, "day")) {
+    if (now.isSame(dueDate, "day")) {
       taskCard.addClass("bg-warning text-white");
-    } else if (now.isAfter(taskDueDate)) {
+    } else if (now.isAfter(dueDate)) {
       taskCard.addClass("bg-danger text-white");
       cardDeleteBtn.addClass("border-light");
     }
@@ -66,17 +66,17 @@ function renderTaskList() {
     });
 
     // Make cards draggable
-    $(".card").draggable({
+    $(".draggable").draggable({
       revert: "invalid",
       helper: "clone",
       start: function (event, ui) {
-        ui.helper.width($(this).width()); // Maintain width of the dragged item
+        ui.helper.width($(this).width());
       },
     });
 
     // Make lanes droppable
     $(".lane").droppable({
-      accept: ".card",
+      accept: ".draggable",
       drop: handleDrop,
     });
   }
@@ -112,14 +112,12 @@ function handleAddTask(event) {
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask() {
-  const cardDeleteBtn = $("<delete-button>");
-  const card = $(task.target).closest(".card");
-  const taskId = card.data("id");
+  const taskId = this.data("id");
 
   tasks = tasks.filter((task) => task.id !== taskId);
   localStorage.setItem("tasks", JSON.stringify(tasks));
 
-  cardDeleteBtn.on("click", handleDeletetask);
+  $(`.card[data-id="${taskId}"]`).remove();
 }
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
@@ -141,6 +139,6 @@ function handleDrop(event, ui) {
 $(document).ready(function () {
   renderTaskList();
 
-  $(".btn-primary").click(handleAddTask);
+  $("#submit-button").click(handleAddTask); // Ensure correct button ID is used
   $(document).on("click", ".delete-task", handleDeleteTask);
 });
